@@ -154,6 +154,7 @@ void screenGoldens(
   Widget Function() build, {
   double height = 844,
   Future<void> Function(WidgetTester tester)? before,
+  List<Override> Function()? overrides,
 }) {
   final size = Size(390, height);
   goldenVariants.forEach((variant, config) {
@@ -167,6 +168,7 @@ void screenGoldens(
           brightness: config.$2,
           disableAnimations: true,
           frame: size,
+          overrides: overrides?.call() ?? const [],
         ),
       );
       await tester.pumpAndSettle();

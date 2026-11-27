@@ -54,3 +54,7 @@ app.*.map.json
 *.jks
 android/key.properties
 android/app/google-services.json
+
+# Local run-time config (Supabase URL + publishable key). Never commit.
+env/*.json
+!env/*.example.json

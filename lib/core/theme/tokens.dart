@@ -129,6 +129,68 @@ class AppTypography {
     color: _c.textPrimary,
   );
 
+  /// Label above a form field ("Numéro de mobile").
+  TextStyle get fieldLabel => appText(
+    size: 14.5,
+    weight: FontWeight.w700,
+    height: 1.3,
+    letterSpacing: -0.2,
+    color: _c.textPrimary,
+  );
+
+  /// Text typed in a form field.
+  TextStyle get input => appText(
+    size: 16.3,
+    weight: FontWeight.w600,
+    height: 1.3,
+    letterSpacing: -0.2,
+    color: _c.textPrimary,
+  );
+
+  /// Fixed prefix inside a field ("+213").
+  TextStyle get inputPrefix => appText(
+    size: 16.3,
+    weight: FontWeight.w800,
+    height: 1.3,
+    letterSpacing: -0.2,
+    color: _c.textPrimary,
+  );
+
+  /// Error or hint line under a field (colour set by the caller).
+  TextStyle get caption => appText(
+    size: 13.3,
+    weight: FontWeight.w600,
+    height: 1.2,
+    letterSpacing: -0.15,
+    color: _c.textSecondary,
+  );
+
+  /// Short paragraph next to a control (consent checkbox).
+  TextStyle get control => appText(
+    size: 14,
+    weight: FontWeight.w500,
+    height: 1.5,
+    letterSpacing: -0.15,
+    color: _c.textPrimary,
+  );
+
+  /// Message in a full-width status banner ("Pas de connexion").
+  TextStyle get banner => appText(
+    size: 14,
+    weight: FontWeight.w700,
+    height: 1.3,
+    letterSpacing: -0.2,
+    color: _c.onPrimary,
+  );
+
+  /// One digit in a code box (A5).
+  TextStyle get codeDigit => appText(
+    size: 25,
+    weight: FontWeight.w800,
+    height: 1.2,
+    color: _c.textPrimary,
+  );
+
   /// Big letters inside an icon tile ("FR", "ع").
   TextStyle get tileLabel => appText(
     size: 22,

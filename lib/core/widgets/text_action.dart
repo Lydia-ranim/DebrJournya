@@ -8,7 +8,7 @@ class TextAction extends StatelessWidget {
   const TextAction({super.key, required this.label, required this.onTap});
 
   final String label;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   static const _hitPadding = EdgeInsets.symmetric(
     horizontal: Space.sm,

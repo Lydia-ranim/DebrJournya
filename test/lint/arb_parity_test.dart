@@ -12,8 +12,10 @@ Map<String, dynamic> _read(String lang) =>
 Set<String> _keys(Map<String, dynamic> arb) =>
     arb.keys.where((k) => !k.startsWith('@')).toSet();
 
+/// `{name}` and the variable of `{name, plural, …}` — not the words that
+/// start an ICU sub-message such as `=1{Code incorrect…}`.
 Set<String> _placeholders(String text) =>
-    RegExp(r'\{(\w+)').allMatches(text).map((m) => m.group(1)!).toSet();
+    RegExp(r'\{(\w+)\s*[},]').allMatches(text).map((m) => m.group(1)!).toSet();
 
 void main() {
   final fr = _read('fr');

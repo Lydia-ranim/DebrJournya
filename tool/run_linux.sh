@@ -54,4 +54,8 @@ cat > "$dir/org.gnome.settings-daemon.plugins.xsettings.gschema.xml" <<'EOF'
 EOF
 glib-compile-schemas "$dir"
 
-GSETTINGS_SCHEMA_DIR="$PWD/$dir" exec flutter run -d linux "$@"
+# Supabase URL + key (gitignored); without it the app runs on fake data.
+defines=()
+[ -f env/dev.json ] && defines=(--dart-define-from-file=env/dev.json)
+
+GSETTINGS_SCHEMA_DIR="$PWD/$dir" exec flutter run -d linux "${defines[@]}" "$@"

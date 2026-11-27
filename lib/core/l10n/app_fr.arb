@@ -87,5 +87,244 @@
         "type": "int"
       }
     }
+  },
+  "commonBack": "Retour",
+  "@commonBack": {
+    "description": "Back button (screen readers, tooltip)."
+  },
+  "commonNoConnection": "Pas de connexion. Réessaie dans un instant.",
+  "@commonNoConnection": {
+    "description": "Banner shown when the device is offline."
+  },
+  "commonSignOut": "Se déconnecter",
+  "@commonSignOut": {
+    "description": "Sign-out action."
+  },
+  "commonTooManyRequests": "Trop de demandes. Réessaie dans quelques minutes.",
+  "@commonTooManyRequests": {
+    "description": "Shown when the server rate-limits SMS codes."
+  },
+  "codeTitle": "Entre le code",
+  "@codeTitle": {
+    "description": "A5 title."
+  },
+  "codeFieldLabel": "Code à 6 chiffres",
+  "@codeFieldLabel": {
+    "description": "Screen-reader label of the A5 code boxes."
+  },
+  "codeResendIn": "Renvoyer le code dans {time}",
+  "@codeResendIn": {
+    "description": "A5 countdown before resending; time like 0:42.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "codeResend": "Renvoyer le code",
+  "@codeResend": {
+    "description": "A5 action once the countdown is over."
+  },
+  "codeVerify": "Vérifier",
+  "@codeVerify": {
+    "description": "A5 main button."
+  },
+  "codeWrong": "{count, plural, =1{Code incorrect, il te reste 1 essai.} other{Code incorrect, il te reste {count} essais.}}",
+  "@codeWrong": {
+    "description": "A5 error after a wrong code; count = tries left.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codeNoTriesLeft": "Trop d’essais. Demande un nouveau code.",
+  "@codeNoTriesLeft": {
+    "description": "A5 error after the last wrong try."
+  },
+  "codeExpired": "Code expiré, demande un nouveau code.",
+  "@codeExpired": {
+    "description": "A5 error when the code is too old."
+  },
+  "roleTitle1": "Bienvenue !",
+  "@roleTitle1": {
+    "description": "A6 title, first line."
+  },
+  "roleTitle2": "Que viens-tu faire ici ?",
+  "@roleTitle2": {
+    "description": "A6 title, second line."
+  },
+  "roleLead": "Tu pourras ajouter l’autre rôle plus tard.",
+  "@roleLead": {
+    "description": "A6 text under the title."
+  },
+  "roleStudentTitle": "Je cherche du travail",
+  "@roleStudentTitle": {
+    "description": "A6 student card title."
+  },
+  "roleStudentText": "Jobs, missions et bénévolat qui respectent ton emploi du temps.",
+  "@roleStudentText": {
+    "description": "A6 student card text."
+  },
+  "roleEmployerTitle": "Je recrute",
+  "@roleEmployerTitle": {
+    "description": "A6 employer card title."
+  },
+  "roleEmployerText": "Publie une annonce et trouve des étudiants disponibles en quelques minutes.",
+  "@roleEmployerText": {
+    "description": "A6 employer card text."
+  },
+  "commonUnexpectedError": "Un problème est survenu. Réessaie dans un instant.",
+  "@commonUnexpectedError": {
+    "description": "Shown when the server fails for an unexpected reason."
+  },
+  "authEmailLabel": "Adresse e-mail",
+  "@authEmailLabel": {
+    "description": "E-mail field label."
+  },
+  "authEmailHint": "toi@exemple.com",
+  "@authEmailHint": {
+    "description": "E-mail field placeholder."
+  },
+  "authPasswordLabel": "Mot de passe",
+  "@authPasswordLabel": {
+    "description": "Password field label."
+  },
+  "authPasswordHelper": "8 caractères minimum.",
+  "@authPasswordHelper": {
+    "description": "Hint under a new password."
+  },
+  "authShowPassword": "Afficher le mot de passe",
+  "@authShowPassword": {
+    "description": "Eye button (screen readers)."
+  },
+  "authHidePassword": "Masquer le mot de passe",
+  "@authHidePassword": {
+    "description": "Eye button (screen readers)."
+  },
+  "authOr": "ou",
+  "@authOr": {
+    "description": "Divider between e-mail sign-in and social buttons."
+  },
+  "authWithGoogle": "Continuer avec Google",
+  "@authWithGoogle": {
+    "description": "Google sign-in button."
+  },
+  "authWithFacebook": "Continuer avec Facebook",
+  "@authWithFacebook": {
+    "description": "Facebook sign-in button."
+  },
+  "authInvalidEmail": "Adresse e-mail invalide.",
+  "@authInvalidEmail": {
+    "description": "E-mail field error."
+  },
+  "authPasswordTooShort": "8 caractères minimum.",
+  "@authPasswordTooShort": {
+    "description": "Password field error."
+  },
+  "authWrongCredentials": "E-mail ou mot de passe incorrect.",
+  "@authWrongCredentials": {
+    "description": "Sign-in error."
+  },
+  "authEmailTaken": "Un compte existe déjà avec cette adresse. Connecte-toi.",
+  "@authEmailTaken": {
+    "description": "Sign-up error."
+  },
+  "signInTitle": "Content de te revoir",
+  "@signInTitle": {
+    "description": "Sign-in title."
+  },
+  "signInLead": "Connecte-toi pour retrouver tes offres et tes candidatures.",
+  "@signInLead": {
+    "description": "Sign-in text under the title."
+  },
+  "signInForgot": "Mot de passe oublié ?",
+  "@signInForgot": {
+    "description": "Sign-in link to password recovery."
+  },
+  "signInButton": "Se connecter",
+  "@signInButton": {
+    "description": "Sign-in main button."
+  },
+  "signInNoAccount": "Pas encore de compte ? Créer un compte",
+  "@signInNoAccount": {
+    "description": "Sign-in footer; contains signInCreateLink word for word."
+  },
+  "signInCreateLink": "Créer un compte",
+  "@signInCreateLink": {
+    "description": "Link inside signInNoAccount."
+  },
+  "signUpTitle": "Crée ton compte",
+  "@signUpTitle": {
+    "description": "Sign-up title."
+  },
+  "signUpLead": "Un e-mail et un mot de passe suffisent. On t’envoie un code pour vérifier ton adresse.",
+  "@signUpLead": {
+    "description": "Sign-up text under the title."
+  },
+  "signUpButton": "Créer mon compte",
+  "@signUpButton": {
+    "description": "Sign-up main button."
+  },
+  "signUpHaveAccount": "Déjà un compte ? Se connecter",
+  "@signUpHaveAccount": {
+    "description": "Sign-up footer; contains signUpSignInLink word for word."
+  },
+  "signUpSignInLink": "Se connecter",
+  "@signUpSignInLink": {
+    "description": "Link inside signUpHaveAccount."
+  },
+  "codeSentToEmail": "Envoyé à {email}.",
+  "@codeSentToEmail": {
+    "description": "Code screen line; email address.",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "codeChangeEmail": "Changer d’adresse",
+  "@codeChangeEmail": {
+    "description": "Code screen link back to the e-mail form."
+  },
+  "forgotTitle": "Mot de passe oublié",
+  "@forgotTitle": {
+    "description": "Password recovery title."
+  },
+  "forgotLead": "Entre ton e-mail : on t’envoie un code pour choisir un nouveau mot de passe.",
+  "@forgotLead": {
+    "description": "Password recovery text."
+  },
+  "forgotButton": "Envoyer le code",
+  "@forgotButton": {
+    "description": "Password recovery button."
+  },
+  "newPasswordTitle": "Nouveau mot de passe",
+  "@newPasswordTitle": {
+    "description": "New password title."
+  },
+  "newPasswordLead": "Choisis un mot de passe que tu n’utilises pas ailleurs.",
+  "@newPasswordLead": {
+    "description": "New password text."
+  },
+  "newPasswordButton": "Enregistrer",
+  "@newPasswordButton": {
+    "description": "New password button."
+  },
+  "authConsent": "J’accepte les conditions d’utilisation et la politique de confidentialité.",
+  "@authConsent": {
+    "description": "Sign-up consent checkbox text; contains authTerms and authPrivacy word for word."
+  },
+  "authTerms": "conditions d’utilisation",
+  "@authTerms": {
+    "description": "Consent link (must appear inside authConsent)."
+  },
+  "authPrivacy": "politique de confidentialité",
+  "@authPrivacy": {
+    "description": "Consent link (must appear inside authConsent)."
+  },
+  "codeLinkHint": "Tu as reçu un lien plutôt qu’un code ? Ouvre-le sur ce téléphone.",
+  "@codeLinkHint": {
+    "description": "Code screen hint: the e-mail may contain a link instead of a code."
   }
 }

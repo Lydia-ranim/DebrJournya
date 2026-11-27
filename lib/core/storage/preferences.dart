@@ -12,4 +12,7 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
 abstract final class PrefKeys {
   static const languageCode = 'languageCode';
   static const onboardingSeen = 'onboardingSeen';
+
+  /// Role of the signed-in user, cached so the app opens offline.
+  static const role = 'role';
 }

@@ -26,6 +26,7 @@ abstract final class Palette {
   static const nightMoss = Color(0xFF7F9C88);
   static const nightPine = Color(0xFF3F5847);
   static const nightSlate = Color(0xFF34495A);
+  static const nightDanger = Color(0xFFE3A08D);
 
   /// Mascot body green ("Jobby Pro").
   static const jobby = Color(0xFF5F8069);
@@ -47,9 +48,11 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.blueTile,
     required this.danger,
     required this.dangerSoft,
+    required this.dangerLine,
     required this.infoSoft,
     required this.greenSoft,
     required this.skeleton,
+    required this.fieldBorder,
     required this.dotInactive,
     required this.paper,
     required this.shadow,
@@ -76,6 +79,9 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color blueTile;
   final Color danger;
   final Color dangerSoft;
+
+  /// Border of danger-soft boxes (error notices).
+  final Color dangerLine;
   final Color infoSoft;
 
   /// Soft green panel behind illustrations (A2 slides 1 and 3).
@@ -83,6 +89,9 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// Placeholder text bars in illustrations and loading skeletons.
   final Color skeleton;
+
+  /// Border of text fields and unticked checkboxes (stronger than [line]).
+  final Color fieldBorder;
 
   /// Inactive page dots (A2).
   final Color dotInactive;
@@ -109,9 +118,11 @@ class AppColors extends ThemeExtension<AppColors> {
     blueTile: Palette.mist,
     danger: Palette.danger,
     dangerSoft: Palette.dangerSoft,
+    dangerLine: Color(0xFFEDCDC3),
     infoSoft: Palette.infoSoft,
     greenSoft: Color(0xFFE8EDE9),
     skeleton: Color(0xFFD3CEBF),
+    fieldBorder: Color(0xFFD3CEBF),
     dotInactive: Color(0xFFCBC6B6),
     paper: Colors.white,
     shadow: Color(0x1A2D3536),
@@ -129,11 +140,13 @@ class AppColors extends ThemeExtension<AppColors> {
     brandAccent: Palette.nightMoss,
     greenTile: Palette.nightPine,
     blueTile: Palette.nightSlate,
-    danger: Palette.danger,
-    dangerSoft: Color(0xFF3A211C),
+    danger: Palette.nightDanger,
+    dangerSoft: Color(0xFF2E1F1C),
+    dangerLine: Color(0xFF55352D),
     infoSoft: Color(0xFF18232B),
     greenSoft: Color(0xFF1C2923),
     skeleton: Color(0xFF2E3D36),
+    fieldBorder: Color(0xFF2E3D36),
     dotInactive: Color(0xFF3A4A42),
     paper: Colors.white,
     shadow: Color(0x66000000),
@@ -154,9 +167,11 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? blueTile,
     Color? danger,
     Color? dangerSoft,
+    Color? dangerLine,
     Color? infoSoft,
     Color? greenSoft,
     Color? skeleton,
+    Color? fieldBorder,
     Color? dotInactive,
     Color? paper,
     Color? shadow,
@@ -175,9 +190,11 @@ class AppColors extends ThemeExtension<AppColors> {
       blueTile: blueTile ?? this.blueTile,
       danger: danger ?? this.danger,
       dangerSoft: dangerSoft ?? this.dangerSoft,
+      dangerLine: dangerLine ?? this.dangerLine,
       infoSoft: infoSoft ?? this.infoSoft,
       greenSoft: greenSoft ?? this.greenSoft,
       skeleton: skeleton ?? this.skeleton,
+      fieldBorder: fieldBorder ?? this.fieldBorder,
       dotInactive: dotInactive ?? this.dotInactive,
       paper: paper ?? this.paper,
       shadow: shadow ?? this.shadow,
@@ -202,9 +219,11 @@ class AppColors extends ThemeExtension<AppColors> {
       blueTile: l(blueTile, other.blueTile),
       danger: l(danger, other.danger),
       dangerSoft: l(dangerSoft, other.dangerSoft),
+      dangerLine: l(dangerLine, other.dangerLine),
       infoSoft: l(infoSoft, other.infoSoft),
       greenSoft: l(greenSoft, other.greenSoft),
       skeleton: l(skeleton, other.skeleton),
+      fieldBorder: l(fieldBorder, other.fieldBorder),
       dotInactive: l(dotInactive, other.dotInactive),
       paper: l(paper, other.paper),
       shadow: l(shadow, other.shadow),

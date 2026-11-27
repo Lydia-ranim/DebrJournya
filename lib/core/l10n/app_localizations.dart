@@ -217,6 +217,342 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Page {current} sur {total}'**
   String onboardingProgress(int current, int total);
+
+  /// Back button (screen readers, tooltip).
+  ///
+  /// In fr, this message translates to:
+  /// **'Retour'**
+  String get commonBack;
+
+  /// Banner shown when the device is offline.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de connexion. Réessaie dans un instant.'**
+  String get commonNoConnection;
+
+  /// Sign-out action.
+  ///
+  /// In fr, this message translates to:
+  /// **'Se déconnecter'**
+  String get commonSignOut;
+
+  /// Shown when the server rate-limits SMS codes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop de demandes. Réessaie dans quelques minutes.'**
+  String get commonTooManyRequests;
+
+  /// A5 title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entre le code'**
+  String get codeTitle;
+
+  /// Screen-reader label of the A5 code boxes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code à 6 chiffres'**
+  String get codeFieldLabel;
+
+  /// A5 countdown before resending; time like 0:42.
+  ///
+  /// In fr, this message translates to:
+  /// **'Renvoyer le code dans {time}'**
+  String codeResendIn(String time);
+
+  /// A5 action once the countdown is over.
+  ///
+  /// In fr, this message translates to:
+  /// **'Renvoyer le code'**
+  String get codeResend;
+
+  /// A5 main button.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifier'**
+  String get codeVerify;
+
+  /// A5 error after a wrong code; count = tries left.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Code incorrect, il te reste 1 essai.} other{Code incorrect, il te reste {count} essais.}}'**
+  String codeWrong(int count);
+
+  /// A5 error after the last wrong try.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop d’essais. Demande un nouveau code.'**
+  String get codeNoTriesLeft;
+
+  /// A5 error when the code is too old.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code expiré, demande un nouveau code.'**
+  String get codeExpired;
+
+  /// A6 title, first line.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bienvenue !'**
+  String get roleTitle1;
+
+  /// A6 title, second line.
+  ///
+  /// In fr, this message translates to:
+  /// **'Que viens-tu faire ici ?'**
+  String get roleTitle2;
+
+  /// A6 text under the title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu pourras ajouter l’autre rôle plus tard.'**
+  String get roleLead;
+
+  /// A6 student card title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Je cherche du travail'**
+  String get roleStudentTitle;
+
+  /// A6 student card text.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jobs, missions et bénévolat qui respectent ton emploi du temps.'**
+  String get roleStudentText;
+
+  /// A6 employer card title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Je recrute'**
+  String get roleEmployerTitle;
+
+  /// A6 employer card text.
+  ///
+  /// In fr, this message translates to:
+  /// **'Publie une annonce et trouve des étudiants disponibles en quelques minutes.'**
+  String get roleEmployerText;
+
+  /// Shown when the server fails for an unexpected reason.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un problème est survenu. Réessaie dans un instant.'**
+  String get commonUnexpectedError;
+
+  /// E-mail field label.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse e-mail'**
+  String get authEmailLabel;
+
+  /// E-mail field placeholder.
+  ///
+  /// In fr, this message translates to:
+  /// **'toi@exemple.com'**
+  String get authEmailHint;
+
+  /// Password field label.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe'**
+  String get authPasswordLabel;
+
+  /// Hint under a new password.
+  ///
+  /// In fr, this message translates to:
+  /// **'8 caractères minimum.'**
+  String get authPasswordHelper;
+
+  /// Eye button (screen readers).
+  ///
+  /// In fr, this message translates to:
+  /// **'Afficher le mot de passe'**
+  String get authShowPassword;
+
+  /// Eye button (screen readers).
+  ///
+  /// In fr, this message translates to:
+  /// **'Masquer le mot de passe'**
+  String get authHidePassword;
+
+  /// Divider between e-mail sign-in and social buttons.
+  ///
+  /// In fr, this message translates to:
+  /// **'ou'**
+  String get authOr;
+
+  /// Google sign-in button.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec Google'**
+  String get authWithGoogle;
+
+  /// Facebook sign-in button.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec Facebook'**
+  String get authWithFacebook;
+
+  /// E-mail field error.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse e-mail invalide.'**
+  String get authInvalidEmail;
+
+  /// Password field error.
+  ///
+  /// In fr, this message translates to:
+  /// **'8 caractères minimum.'**
+  String get authPasswordTooShort;
+
+  /// Sign-in error.
+  ///
+  /// In fr, this message translates to:
+  /// **'E-mail ou mot de passe incorrect.'**
+  String get authWrongCredentials;
+
+  /// Sign-up error.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un compte existe déjà avec cette adresse. Connecte-toi.'**
+  String get authEmailTaken;
+
+  /// Sign-in title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Content de te revoir'**
+  String get signInTitle;
+
+  /// Sign-in text under the title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecte-toi pour retrouver tes offres et tes candidatures.'**
+  String get signInLead;
+
+  /// Sign-in link to password recovery.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe oublié ?'**
+  String get signInForgot;
+
+  /// Sign-in main button.
+  ///
+  /// In fr, this message translates to:
+  /// **'Se connecter'**
+  String get signInButton;
+
+  /// Sign-in footer; contains signInCreateLink word for word.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas encore de compte ? Créer un compte'**
+  String get signInNoAccount;
+
+  /// Link inside signInNoAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer un compte'**
+  String get signInCreateLink;
+
+  /// Sign-up title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Crée ton compte'**
+  String get signUpTitle;
+
+  /// Sign-up text under the title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un e-mail et un mot de passe suffisent. On t’envoie un code pour vérifier ton adresse.'**
+  String get signUpLead;
+
+  /// Sign-up main button.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer mon compte'**
+  String get signUpButton;
+
+  /// Sign-up footer; contains signUpSignInLink word for word.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déjà un compte ? Se connecter'**
+  String get signUpHaveAccount;
+
+  /// Link inside signUpHaveAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Se connecter'**
+  String get signUpSignInLink;
+
+  /// Code screen line; email address.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyé à {email}.'**
+  String codeSentToEmail(String email);
+
+  /// Code screen link back to the e-mail form.
+  ///
+  /// In fr, this message translates to:
+  /// **'Changer d’adresse'**
+  String get codeChangeEmail;
+
+  /// Password recovery title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe oublié'**
+  String get forgotTitle;
+
+  /// Password recovery text.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entre ton e-mail : on t’envoie un code pour choisir un nouveau mot de passe.'**
+  String get forgotLead;
+
+  /// Password recovery button.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer le code'**
+  String get forgotButton;
+
+  /// New password title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveau mot de passe'**
+  String get newPasswordTitle;
+
+  /// New password text.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis un mot de passe que tu n’utilises pas ailleurs.'**
+  String get newPasswordLead;
+
+  /// New password button.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer'**
+  String get newPasswordButton;
+
+  /// Sign-up consent checkbox text; contains authTerms and authPrivacy word for word.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’accepte les conditions d’utilisation et la politique de confidentialité.'**
+  String get authConsent;
+
+  /// Consent link (must appear inside authConsent).
+  ///
+  /// In fr, this message translates to:
+  /// **'conditions d’utilisation'**
+  String get authTerms;
+
+  /// Consent link (must appear inside authConsent).
+  ///
+  /// In fr, this message translates to:
+  /// **'politique de confidentialité'**
+  String get authPrivacy;
+
+  /// Code screen hint: the e-mail may contain a link instead of a code.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu as reçu un lien plutôt qu’un code ? Ouvre-le sur ce téléphone.'**
+  String get codeLinkHint;
 }
 
 class _AppLocalizationsDelegate

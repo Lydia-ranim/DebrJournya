@@ -40,8 +40,13 @@ Source documents (authoritative, read them when a detail matters):
 │  ├─ core/storage/preferences.dart  sharedPreferencesProvider + PrefKeys
 │  ├─ core/widgets/                shared UI kit: app_card, icon_tile, choice_card, page_header, wordmark,
 │  │                               loading_dots, app_button, page_dots, text_action, brand_header,
-│  │                               coming_soon_screen (stand-in for routes not built yet)
-│  └─ features/<feature>/          mascot/ (Jobby), splash/ (A1), language/ (A3), onboarding/ (A2)
+│  │                               round_icon_button, app_text_field, app_checkbox, linked_text,
+│  │                               status_banner, coming_soon_screen (stand-in for routes not built yet)
+│  └─ features/<feature>/          mascot/ (Jobby), splash/ (A1), language/ (A3), onboarding/ (A2),
+│                                  auth/ (sign-in, sign-up, code, forgot / new password; data/: Auth +
+│                                  Profile repositories, Supabase + fake; domain/: credentials, phone),
+│                                  role/ (A6)
+├─ supabase/migrations/  SQL applied to the Supabase project (keep in sync with what is applied)
 ├─ test/                helpers.dart (fonts, harness, screenGoldens, robustnessTests, resetPrefs),
 │                       screens/<screen>_test.dart + screens/goldens/, lint/ (code rules, ARB parity),
 │                       app_flow_test.dart (real app end to end), goldens/ (A1 + mascot)
@@ -60,7 +65,8 @@ Toolchain at creation: Flutter 3.47.8 stable, Dart 3.13.7.
 flutter pub get
 flutter analyze                     # must be clean before committing
 flutter test
-flutter run --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=...
+flutter run --dart-define-from-file=env/dev.json   # Supabase URL + publishable key (gitignored;
+                                                  # copy env/dev.example.json). Without it: fake repos
 flutter gen-l10n                    # regenerate AppLocalizations after editing .arb files
 flutter test --update-goldens test/screens/   # only after visually checking the change (§10)
 python3 -I tool/mockup_compare.py screen A3 test/screens/goldens/a3_language <out_dir>
@@ -225,7 +231,7 @@ Mockups are 390 pt wide (exported @2x = 780 px). Style: calm, rounded, flat card
 | eucalyptus (match pill, active nav, FR tile) = `greenTile` | `#98AA9D` | `#3F5847` |
 | mist (blue accents, unpaid tag, AR tile) = `blueTile` | `#B3C9D6` | `#34495A` |
 | plaster (chips/neutral fills) | `#F2EFE2` / `#EFECE3` | — |
-| danger / urgent / report | `#B5533C` | `#B5533C` |
+| danger / urgent / report | `#B5533C` | `#E3A08D` (salmon) |
 | danger soft bg (Refusée, error box) | `#F6E4DE` | dark red tint |
 | info soft bg (Envoyée, info banners) | `#E7EFF3` | dark blue tint |
 | mascot body | `#5F8069` | same |
@@ -233,7 +239,10 @@ Mockups are 390 pt wide (exported @2x = 780 px). Style: calm, rounded, flat card
 - Use `tokens.dart` only: `Space` (page margin 20, card padding 23 measured from the outer edge), `Radii`
   (card 23, tile 20, field 18, button 16, pill), `Sizes` (tile 64, round button 44, button 52) and
   `context.type` (display 28/w800, lead 15/w500, hero 28.5/w800, leadLarge 16.3/w500, cardTitle 22/w800,
-  body 15/w500, button 16.4/w700, action 15.3/w700, tileLabel 22/w800).
+  body 15/w500, button 16.4/w700, action 15.3/w700, tileLabel 22/w800, fieldLabel 14.5/w700,
+  input 16.3/w600, inputPrefix 16.3/w800, caption 13.3/w600, control 14/w500, banner 14/w700).
+- Forms: field border `fieldBorder` (`#D3CEBF` / `#2E3D36`); errors use `danger`, which is salmon
+  `#E3A08D` in dark mode (measured on A4 dark). Status banners use primary/onPrimary.
 - Illustrations (A2) are `CustomPainter`s in a fixed 300-pt box, scaled down on small screens, coloured
   only from tokens (`greenSoft`, `infoSoft`, `skeleton`, `paper`, `shadow`…). The A2 CV sheet stays white
   in dark mode, as in the dark mockup.
@@ -287,11 +296,31 @@ No metal parts. Pad on the left.
 - A2: "Passer"/"Commencer" save `onboardingSeen`; splash routes language? → onboarding? → A4. Slide-3
   badge = Lucide `sparkle` + a drawn plus (no single icon matches). Arabic leads were reworded so they
   break into balanced lines.
+- Phone input rules (kept from A4 for B1/C1): accepted with or without the leading 0 (also pasted +213…),
+  valid = 9 digits starting 5/6/7, grouped `0661 23 45 67`, stored as `+213…`, box stays LTR in Arabic.
+  E-mail and password boxes also stay LTR. Offline → top banner for 4 s.
+- **Backend (decided 2026-11-27):** Supabase project `DebrJournya` (ref `owqidxoazgcndjlcnano`,
+  eu-west-1). Real backend as we go: each screen ships with its tables + RLS. **One role per account (v1).**
+- **Sign-in (changed 2026-11-27, replaces phone OTP — no SMS provider):** e-mail + password, e-mail
+  confirmed with a 6-digit code (same code screen for password recovery), plus Google and Facebook
+  (Supabase browser OAuth, back to the app via the deep link `com.debrjournya.debrjournya://login-callback`).
+  Dashboard setup steps: `Docs/setup/auth_providers.md`. Facebook is built but hidden
+  (`Features.facebookLogin` in `lib/core/config/features.dart`) until the Meta app exists. Until custom
+  SMTP lets the templates show `{{ .Token }}`, the e-mails hold links: sign-up/reset pass the app deep link
+  as redirect, and the router reacts to the auth stream (sign-in → A6/home, `passwordRecovery` → new password). There are no mockups for these screens: they
+  reuse the A4 style (A4 phone mockup and A5 SMS wording no longer apply). The **phone number is asked
+  in the profile (B1 / C1)**, not verified, `+213[567]xxxxxxxx` checked in the DB, private until
+  acceptance (spec F1/F7 adjusted).
+- `profiles` (id = auth user, phone, role, locale) created by a trigger at sign-up; users read/update only
+  their row; `role` is set once (guard trigger). Signed-in routing: cached role (prefs) → home; none → A6.
+  A finished sign-in on a sign-in screen (password or social) is picked up by the router from the auth
+  stream. Supabase gives the same error for a wrong and an expired code: told apart by the code's age.
+  3 tries per code, resend after 60 s.
 - A3: titles always in both languages; each card in its own language and direction; the lead follows the
   app language. Picking saves the language; a returning user skips A3 (splash → next step).
 
 **MVP plan (decided 2026-11-27):** ship the **core loop** first, UI on fake data, one screen per review:
-- **Wave 1 (now):** foundations ✓ · A3 ✓ · A2 ✓ · A4 · A5 · A6 · B1 · B2 · B3 · student shell + B4 · feed
+- **Wave 1 (now):** foundations ✓ · A3 ✓ · A2 ✓ · sign-in (e-mail/Google/Facebook) ✓ · code ✓ · A6 ✓ (awaiting sign-off) · B1 · B2 · B3 · student shell + B4 · feed
   states · B7(+B8) · B9 · B10 · D3 · C1 · employer shell + C4 · C3 + aperçu + succès · C6 + C7 · D2 minimal.
   Tabs without a screen yet show `ComingSoonScreen`.
 - **Wave 2 (before the 10 Dec beta):** B5, availability grid, E1/E3/E4, B12 + C10, D1, D4, C2, C5,
