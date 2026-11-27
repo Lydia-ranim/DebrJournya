@@ -121,6 +121,102 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Chargement'**
   String get loadingLabel;
+
+  /// Placeholder for a screen that is not built yet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt disponible'**
+  String get commonComingSoon;
+
+  /// A3 title. Shown in BOTH languages at once (each line read from its own locale).
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis ta langue'**
+  String get languageTitle;
+
+  /// A3 intro under the titles, in the current app language.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu pourras la changer à tout moment dans les réglages.'**
+  String get languageLead;
+
+  /// A3 card tile: short mark of this language (Latin 'FR', Arabic letter 'ع').
+  ///
+  /// In fr, this message translates to:
+  /// **'FR'**
+  String get languageTileLabel;
+
+  /// A3 card title: this language's own name.
+  ///
+  /// In fr, this message translates to:
+  /// **'Français'**
+  String get languageName;
+
+  /// A3 card text, written in this language.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toute l’application en français.'**
+  String get languageDescription;
+
+  /// A2 header action: skip the slides.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passer'**
+  String get onboardingSkip;
+
+  /// A2 button on slides 1–2.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suivant'**
+  String get onboardingNext;
+
+  /// A2 button on the last slide.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commencer'**
+  String get onboardingStart;
+
+  /// A2 slide 1 title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouve un job flexible'**
+  String get onboarding1Title;
+
+  /// A2 slide 1 text.
+  ///
+  /// In fr, this message translates to:
+  /// **'Missions, jobs et événements près de chez toi, qui respectent tes cours.'**
+  String get onboarding1Lead;
+
+  /// A2 slide 2 title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Remplis tes créneaux, vite'**
+  String get onboarding2Title;
+
+  /// A2 slide 2 text.
+  ///
+  /// In fr, this message translates to:
+  /// **'Indique tes disponibilités une fois. On te propose ce qui colle.'**
+  String get onboarding2Lead;
+
+  /// A2 slide 3 title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Construis ton CV'**
+  String get onboarding3Title;
+
+  /// A2 slide 3 text.
+  ///
+  /// In fr, this message translates to:
+  /// **'Chaque mission terminée s’ajoute à ton CV, prêt à envoyer.'**
+  String get onboarding3Lead;
+
+  /// Screen-reader label of the A2 page dots.
+  ///
+  /// In fr, this message translates to:
+  /// **'Page {current} sur {total}'**
+  String onboardingProgress(int current, int total);
 }
 
 class _AppLocalizationsDelegate

@@ -15,5 +15,77 @@
   "loadingLabel": "Chargement",
   "@loadingLabel": {
     "description": "Screen-reader label for the three animated loading dots."
+  },
+  "commonComingSoon": "Bientôt disponible",
+  "@commonComingSoon": {
+    "description": "Placeholder for a screen that is not built yet."
+  },
+  "languageTitle": "Choisis ta langue",
+  "@languageTitle": {
+    "description": "A3 title. Shown in BOTH languages at once (each line read from its own locale)."
+  },
+  "languageLead": "Tu pourras la changer à tout moment dans les réglages.",
+  "@languageLead": {
+    "description": "A3 intro under the titles, in the current app language."
+  },
+  "languageTileLabel": "FR",
+  "@languageTileLabel": {
+    "description": "A3 card tile: short mark of this language (Latin 'FR', Arabic letter 'ع')."
+  },
+  "languageName": "Français",
+  "@languageName": {
+    "description": "A3 card title: this language's own name."
+  },
+  "languageDescription": "Toute l’application en français.",
+  "@languageDescription": {
+    "description": "A3 card text, written in this language."
+  },
+  "onboardingSkip": "Passer",
+  "@onboardingSkip": {
+    "description": "A2 header action: skip the slides."
+  },
+  "onboardingNext": "Suivant",
+  "@onboardingNext": {
+    "description": "A2 button on slides 1–2."
+  },
+  "onboardingStart": "Commencer",
+  "@onboardingStart": {
+    "description": "A2 button on the last slide."
+  },
+  "onboarding1Title": "Trouve un job flexible",
+  "@onboarding1Title": {
+    "description": "A2 slide 1 title."
+  },
+  "onboarding1Lead": "Missions, jobs et événements près de chez toi, qui respectent tes cours.",
+  "@onboarding1Lead": {
+    "description": "A2 slide 1 text."
+  },
+  "onboarding2Title": "Remplis tes créneaux, vite",
+  "@onboarding2Title": {
+    "description": "A2 slide 2 title."
+  },
+  "onboarding2Lead": "Indique tes disponibilités une fois. On te propose ce qui colle.",
+  "@onboarding2Lead": {
+    "description": "A2 slide 2 text."
+  },
+  "onboarding3Title": "Construis ton CV",
+  "@onboarding3Title": {
+    "description": "A2 slide 3 title."
+  },
+  "onboarding3Lead": "Chaque mission terminée s’ajoute à ton CV, prêt à envoyer.",
+  "@onboarding3Lead": {
+    "description": "A2 slide 3 text."
+  },
+  "onboardingProgress": "Page {current} sur {total}",
+  "@onboardingProgress": {
+    "description": "Screen-reader label of the A2 page dots.",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   }
 }

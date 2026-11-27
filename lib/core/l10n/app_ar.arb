@@ -3,5 +3,21 @@
   "appName": "DebrJournya",
   "splashTagline": "عمل يناسب جدولك الزمني",
   "mascotLabel": "جوبي، تميمة التطبيق",
-  "loadingLabel": "جارٍ التحميل"
+  "loadingLabel": "جارٍ التحميل",
+  "commonComingSoon": "قريبًا",
+  "languageTitle": "اختر لغتك",
+  "languageLead": "يمكنك تغييرها في أي وقت من الإعدادات.",
+  "languageTileLabel": "ع",
+  "languageName": "العربية",
+  "languageDescription": "التطبيق كاملاً بالعربية، من اليمين إلى اليسار.",
+  "onboardingSkip": "تخطٍّ",
+  "onboardingNext": "التالي",
+  "onboardingStart": "ابدأ",
+  "onboarding1Title": "اعثر على عمل مرن",
+  "onboarding1Lead": "مهام ووظائف وفعاليات بالقرب منك، تتماشى مع أوقات دراستك.",
+  "onboarding2Title": "املأ أوقات فراغك بسرعة",
+  "onboarding2Lead": "حدّد أوقات فراغك مرة واحدة، وسنقترح عليك ما يناسبك تمامًا.",
+  "onboarding3Title": "ابنِ سيرتك الذاتية",
+  "onboarding3Lead": "كل مهمة تُنجزها تُضاف تلقائيًا إلى سيرتك الذاتية، جاهزة للإرسال.",
+  "onboardingProgress": "الصفحة {current} من {total}"
 }

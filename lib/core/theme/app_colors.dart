@@ -19,12 +19,13 @@ abstract final class Palette {
 
   static const night = Color(0xFF0E1412);
   static const nightCard = Color(0xFF161E1B);
-  static const nightLine = Color(0xFF26302C);
+  static const nightLine = Color(0xFF23302B);
   static const nightInk = Color(0xFFE8E4D8);
   static const nightInk2 = Color(0xFFAEB8B2);
   static const sage = Color(0xFFA3B8A9);
   static const nightMoss = Color(0xFF7F9C88);
   static const nightPine = Color(0xFF3F5847);
+  static const nightSlate = Color(0xFF34495A);
 
   /// Mascot body green ("Jobby Pro").
   static const jobby = Color(0xFF5F8069);
@@ -42,11 +43,16 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.primary,
     required this.onPrimary,
     required this.brandAccent,
-    required this.success,
-    required this.info,
+    required this.greenTile,
+    required this.blueTile,
     required this.danger,
     required this.dangerSoft,
     required this.infoSoft,
+    required this.greenSoft,
+    required this.skeleton,
+    required this.dotInactive,
+    required this.paper,
+    required this.shadow,
     required this.loaderDots,
   });
 
@@ -62,11 +68,30 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// The "Journya" half of the wordmark.
   final Color brandAccent;
-  final Color success;
-  final Color info;
+
+  /// Green icon tiles (FR in A3, "Je cherche" in A6), match pills.
+  final Color greenTile;
+
+  /// Blue icon tiles (AR in A3, "Je recrute" in A6), unpaid tags.
+  final Color blueTile;
   final Color danger;
   final Color dangerSoft;
   final Color infoSoft;
+
+  /// Soft green panel behind illustrations (A2 slides 1 and 3).
+  final Color greenSoft;
+
+  /// Placeholder text bars in illustrations and loading skeletons.
+  final Color skeleton;
+
+  /// Inactive page dots (A2).
+  final Color dotInactive;
+
+  /// Printed-paper white (the CV sheet stays white in dark mode, as designed).
+  final Color paper;
+
+  /// Soft drop shadow under floating cards.
+  final Color shadow;
 
   /// The three splash/loader dots, start to end.
   final List<Color> loaderDots;
@@ -78,13 +103,18 @@ class AppColors extends ThemeExtension<AppColors> {
     textPrimary: Palette.ink,
     textSecondary: Palette.ink2,
     primary: Palette.soot,
-    onPrimary: Colors.white,
+    onPrimary: Palette.cream,
     brandAccent: Palette.moss,
-    success: Palette.eucalyptus,
-    info: Palette.mist,
+    greenTile: Palette.eucalyptus,
+    blueTile: Palette.mist,
     danger: Palette.danger,
     dangerSoft: Palette.dangerSoft,
     infoSoft: Palette.infoSoft,
+    greenSoft: Color(0xFFE8EDE9),
+    skeleton: Color(0xFFD3CEBF),
+    dotInactive: Color(0xFFCBC6B6),
+    paper: Colors.white,
+    shadow: Color(0x1A2D3536),
     loaderDots: [Palette.soot, Palette.moss, Palette.eucalyptus],
   );
 
@@ -95,13 +125,18 @@ class AppColors extends ThemeExtension<AppColors> {
     textPrimary: Palette.nightInk,
     textSecondary: Palette.nightInk2,
     primary: Palette.sage,
-    onPrimary: Palette.ink,
+    onPrimary: Palette.night,
     brandAccent: Palette.nightMoss,
-    success: Palette.eucalyptus,
-    info: Color(0xFF3A4A5A),
+    greenTile: Palette.nightPine,
+    blueTile: Palette.nightSlate,
     danger: Palette.danger,
     dangerSoft: Color(0xFF3A211C),
-    infoSoft: Color(0xFF1B2630),
+    infoSoft: Color(0xFF18232B),
+    greenSoft: Color(0xFF1C2923),
+    skeleton: Color(0xFF2E3D36),
+    dotInactive: Color(0xFF3A4A42),
+    paper: Colors.white,
+    shadow: Color(0x66000000),
     loaderDots: [Palette.sage, Palette.nightMoss, Palette.nightPine],
   );
 
@@ -115,11 +150,16 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? primary,
     Color? onPrimary,
     Color? brandAccent,
-    Color? success,
-    Color? info,
+    Color? greenTile,
+    Color? blueTile,
     Color? danger,
     Color? dangerSoft,
     Color? infoSoft,
+    Color? greenSoft,
+    Color? skeleton,
+    Color? dotInactive,
+    Color? paper,
+    Color? shadow,
     List<Color>? loaderDots,
   }) {
     return AppColors(
@@ -131,11 +171,16 @@ class AppColors extends ThemeExtension<AppColors> {
       primary: primary ?? this.primary,
       onPrimary: onPrimary ?? this.onPrimary,
       brandAccent: brandAccent ?? this.brandAccent,
-      success: success ?? this.success,
-      info: info ?? this.info,
+      greenTile: greenTile ?? this.greenTile,
+      blueTile: blueTile ?? this.blueTile,
       danger: danger ?? this.danger,
       dangerSoft: dangerSoft ?? this.dangerSoft,
       infoSoft: infoSoft ?? this.infoSoft,
+      greenSoft: greenSoft ?? this.greenSoft,
+      skeleton: skeleton ?? this.skeleton,
+      dotInactive: dotInactive ?? this.dotInactive,
+      paper: paper ?? this.paper,
+      shadow: shadow ?? this.shadow,
       loaderDots: loaderDots ?? this.loaderDots,
     );
   }
@@ -153,11 +198,16 @@ class AppColors extends ThemeExtension<AppColors> {
       primary: l(primary, other.primary),
       onPrimary: l(onPrimary, other.onPrimary),
       brandAccent: l(brandAccent, other.brandAccent),
-      success: l(success, other.success),
-      info: l(info, other.info),
+      greenTile: l(greenTile, other.greenTile),
+      blueTile: l(blueTile, other.blueTile),
       danger: l(danger, other.danger),
       dangerSoft: l(dangerSoft, other.dangerSoft),
       infoSoft: l(infoSoft, other.infoSoft),
+      greenSoft: l(greenSoft, other.greenSoft),
+      skeleton: l(skeleton, other.skeleton),
+      dotInactive: l(dotInactive, other.dotInactive),
+      paper: l(paper, other.paper),
+      shadow: l(shadow, other.shadow),
       loaderDots: [
         for (var i = 0; i < loaderDots.length; i++)
           l(loaderDots[i], other.loaderDots[i]),

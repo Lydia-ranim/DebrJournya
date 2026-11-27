@@ -30,14 +30,23 @@ Source documents (authoritative, read them when a detail matters):
 ```
 /                       Flutter project root (package name: debrjournya, Android only)
 ├─ lib/
-│  ├─ main.dart, app.dart          entry point; MaterialApp (themes, l10n, locale resolution)
-│  ├─ core/theme/                  app_colors.dart (Palette + AppColors ThemeExtension, `context.colors`),
-│  │                               app_theme.dart (AppTheme.light/dark, AppFonts, appText())
-│  ├─ core/l10n/                   app_fr.arb (template), app_ar.arb + generated AppLocalizations
-│  ├─ core/widgets/                shared UI kit: wordmark.dart, loading_dots.dart
-│  └─ features/<feature>/          mascot/ (Jobby), splash/ (A1)
-├─ test/                helpers.dart (fonts, harness, goldenFrame), widget tests, goldens/
-├─ tool/                render_brand_test.dart → regenerates assets/brand/*.png from the painter
+│  ├─ main.dart, app.dart          entry point (loads prefs, ProviderScope); MaterialApp.router
+│  ├─ core/theme/                  app_colors.dart (Palette + AppColors, `context.colors`), app_theme.dart
+│  │                               (AppTheme, AppFonts, appText()), tokens.dart (Space, Radii, Sizes,
+│  │                               AppTypography via `context.type`)
+│  ├─ core/l10n/                   app_fr.arb (template), app_ar.arb, generated AppLocalizations,
+│  │                               locale_provider.dart (saved language)
+│  ├─ core/router/app_router.dart  `Routes` paths + `routerProvider` (go_router)
+│  ├─ core/storage/preferences.dart  sharedPreferencesProvider + PrefKeys
+│  ├─ core/widgets/                shared UI kit: app_card, icon_tile, choice_card, page_header, wordmark,
+│  │                               loading_dots, app_button, page_dots, text_action, brand_header,
+│  │                               coming_soon_screen (stand-in for routes not built yet)
+│  └─ features/<feature>/          mascot/ (Jobby), splash/ (A1), language/ (A3), onboarding/ (A2)
+├─ test/                helpers.dart (fonts, harness, screenGoldens, robustnessTests, resetPrefs),
+│                       screens/<screen>_test.dart + screens/goldens/, lint/ (code rules, ARB parity),
+│                       app_flow_test.dart (real app end to end), goldens/ (A1 + mascot)
+├─ tool/                render_brand_test.dart (logo PNGs), mockup_compare.py (golden vs mockup),
+│                       run_linux.sh (desktop preview)
 ├─ assets/fonts/        Manrope (variable), IBM Plex Sans Arabic 500/700, OFL licences
 ├─ assets/brand/        logo PNGs for launcher icon / native splash (generator input, not bundled)
 ├─ android/             applicationId com.debrjournya.debrjournya, label "DebrJournya"
@@ -53,7 +62,9 @@ flutter analyze                     # must be clean before committing
 flutter test
 flutter run --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=...
 flutter gen-l10n                    # regenerate AppLocalizations after editing .arb files
-flutter test --update-goldens test/goldens/   # only after visually checking the change (§10)
+flutter test --update-goldens test/screens/   # only after visually checking the change (§10)
+python3 -I tool/mockup_compare.py screen A3 test/screens/goldens/a3_language <out_dir>
+python3 -I tool/mockup_compare.py bands "Docs/design/light/A6 · Choix du rôle.png"   # read positions
 
 # Logo pipeline (after changing the mascot painter):
 flutter test --update-goldens tool/render_brand_test.dart
@@ -118,10 +129,13 @@ Feed and the student's own applications must open offline from cache.
                                  # employer, cv, notifications, settings, report, mascot
       data/ domain/ presentation/
   ```
-- **Packages in use:** `flutter_localizations`, `intl`; dev: `flutter_launcher_icons`,
-  `flutter_native_splash`. Navigation is a plain `home:` for now (only A1 exists).
-- **Still proposed, add when the screen needs it:** `go_router` (from A3 on), `flutter_riverpod`,
-  `shared_preferences` (language choice), `supabase_flutter`, `firebase_messaging`,
+- **Packages in use:** `flutter_localizations`, `intl`, `go_router` (routes in `core/router`),
+  `flutter_riverpod` 3 (state; `Notifier`/`NotifierProvider`), `shared_preferences` (device settings),
+  `lucide_icons_flutter` (icons — the mockups use Lucide; use the `…Dir` variants for arrows/chevrons so
+  they mirror in Arabic); dev: `flutter_launcher_icons`, `flutter_native_splash`.
+- **No database yet:** each feature gets `domain/` models + an abstract repository and `data/fake_*`
+  implementations seeded with the mockups' sample data; Supabase later = another implementation.
+- **Still proposed, add when the screen needs it:** `url_launcher` (D3), `supabase_flutter`, `firebase_messaging`,
   `flutter_local_notifications`, `pdf` + `printing`/`share_plus`, `flutter_map` (B6). Check the size budget
   before adding anything heavy; record choices here.
 - **Backend:** Supabase (Postgres + PostGIS for distance, Auth with phone OTP, Storage for logos/photos/
@@ -179,7 +193,11 @@ onboarding step 2 · public employer page (tap employer card in B7) · edit post
 ## 6. Localisation (FR + AR)
 
 - Use `flutter_localizations` + ARB files (`lib/core/l10n/app_fr.arb`, `app_ar.arb`), French as template.
-  **No hard-coded user-facing strings** in widgets.
+  **No hard-coded user-facing strings** in widgets. Key names: `<screen><Thing>` (`languageTitle`,
+  `b4SearchHint`…), shared words `common*`. Every FR key has an `@key` description (tested).
+- Text that must appear in a specific language whatever the app language (A3 titles/cards) comes from
+  `lookupAppLocalizations(Locale('fr'|'ar'))`, wrapped in its own `Directionality`.
+- Language: the user's choice is saved (`localeProvider`); until then Arabic phones get Arabic, others French.
 - **All designs are in French; Claude writes the Arabic strings.** Use Modern Standard Arabic, natural and
   short (not word-for-word), consistent terminology. Keep a glossary in `app_ar.arb` descriptions for key
   terms: Job → وظيفة, Mission → مهمة, Événement → فعالية, Bénévolat → تطوع, Candidature → طلب / ترشّح,
@@ -199,20 +217,27 @@ Mockups are 390 pt wide (exported @2x = 780 px). Style: calm, rounded, flat card
 |---|---|---|
 | background | `#FAF8F2` | `#0E1412` |
 | surface / card | `#FFFFFF` | `#161E1B` |
-| border / line | `#E9E5DA` | subtle lighter-than-card line |
+| border / line | `#E9E5DA` | `#23302B` |
 | text primary (ink) | `#111414` | `#E8E4D8` (approx.) |
 | text secondary (ink2) | `#3E4544` | muted grey-green |
 | primary button bg | `#2D3536` (soot) | `#A3B8A9` (sage) with dark text |
 | moss (brand "Journya", progress) | `#697C70` | — |
-| eucalyptus (match pill, active nav, FR tile) | `#98AA9D` | darker green tint |
-| mist (blue accents, unpaid tag, AR tile) | `#B3C9D6` | slate blue `#3A4A5A`-ish |
+| eucalyptus (match pill, active nav, FR tile) = `greenTile` | `#98AA9D` | `#3F5847` |
+| mist (blue accents, unpaid tag, AR tile) = `blueTile` | `#B3C9D6` | `#34495A` |
 | plaster (chips/neutral fills) | `#F2EFE2` / `#EFECE3` | — |
 | danger / urgent / report | `#B5533C` | `#B5533C` |
 | danger soft bg (Refusée, error box) | `#F6E4DE` | dark red tint |
 | info soft bg (Envoyée, info banners) | `#E7EFF3` | dark blue tint |
 | mascot body | `#5F8069` | same |
 
-- Radii ≈ cards 24, inputs/buttons 16–20, chips fully rounded, icon tiles 16–20. Buttons ~52 pt tall, full width.
+- Use `tokens.dart` only: `Space` (page margin 20, card padding 23 measured from the outer edge), `Radii`
+  (card 23, tile 20, field 18, button 16, pill), `Sizes` (tile 64, round button 44, button 52) and
+  `context.type` (display 28/w800, lead 15/w500, hero 28.5/w800, leadLarge 16.3/w500, cardTitle 22/w800,
+  body 15/w500, button 16.4/w700, action 15.3/w700, tileLabel 22/w800).
+- Illustrations (A2) are `CustomPainter`s in a fixed 300-pt box, scaled down on small screens, coloured
+  only from tokens (`greenSoft`, `infoSoft`, `skeleton`, `paper`, `shadow`…). The A2 CV sheet stays white
+  in dark mode, as in the dark mockup.
+  Measure before adding a value; add it as a token, not inline.
 - Typography (bundled): **Manrope** variable font for Latin; **IBM Plex Sans Arabic** Medium/Bold as fallback
   for Arabic. Use `appText(size:, weight:, wght:)` — it sets both `fontWeight` and the `wght` axis (needed
   for the variable font); `wght` allows in-between weights (A1 tagline uses 550).
@@ -259,6 +284,19 @@ No metal parts. Pad on the left.
 - Where design and spec differ on merged screens, follow the **design** (B11, B14, C5, C9, D5 are separate) —
   *proposed, confirm.*
 - Order: language choice (A3) **before** onboarding (A2) — *proposed, confirm.*
+- A2: "Passer"/"Commencer" save `onboardingSeen`; splash routes language? → onboarding? → A4. Slide-3
+  badge = Lucide `sparkle` + a drawn plus (no single icon matches). Arabic leads were reworded so they
+  break into balanced lines.
+- A3: titles always in both languages; each card in its own language and direction; the lead follows the
+  app language. Picking saves the language; a returning user skips A3 (splash → next step).
+
+**MVP plan (decided 2026-11-27):** ship the **core loop** first, UI on fake data, one screen per review:
+- **Wave 1 (now):** foundations ✓ · A3 ✓ · A2 ✓ · A4 · A5 · A6 · B1 · B2 · B3 · student shell + B4 · feed
+  states · B7(+B8) · B9 · B10 · D3 · C1 · employer shell + C4 · C3 + aperçu + succès · C6 + C7 · D2 minimal.
+  Tabs without a screen yet show `ComingSoonScreen`.
+- **Wave 2 (before the 10 Dec beta):** B5, availability grid, E1/E3/E4, B12 + C10, D1, D4, C2, C5,
+  permission screens. Then Supabase behind the same repositories.
+- **Wave 3 (after beta, Should):** B6, B11, B13/C9, C8, B14, D5, D6, E2.
 
 **Open (ask / confirm before building the affected part):**
 1. **Availability calendar (F3):** spec requires a 7 days × 4 slots grid (matin 8–12, après-midi 12–17,
@@ -279,14 +317,23 @@ No metal parts. Pad on the left.
 
 ## 10. Working conventions
 
-- **Screens are built one at a time and signed off before the next one.** Per screen: build it, add widget
-  tests + goldens in `test/goldens/` (FR light/dark, AR light/dark), then compare each golden with the
-  mockup PNG. Goldens are 780×1688 = same pixels as the mockups (`useSurface` + `goldenFrame` in
-  `test/helpers.dart`), so measure element bounding boxes on both and iterate until they agree within ~1–2 px.
+- **Screens are built one at a time and signed off before the next one.** Definition of done per screen:
+  1. built only from `core/widgets` + tokens + ARB keys (FR and AR written together);
+  2. route added in `app_router.dart`, wired to the previous/next screens;
+  3. `test/screens/<screen>_test.dart` with `screenGoldens(name, build, height: mockupPx/2)` (4 variants at
+     the mockup's pixel size), `robustnessTests` (320×640, text ×1.3, FR+AR) and interaction tests;
+  4. `tool/mockup_compare.py screen <ID> …` until every band is within ~1–3 px (FR light + dark), AR checked
+     by eye for mirroring;
+  5. `flutter analyze` clean, full `flutter test` green (includes `test/lint`: no raw colours, no
+     left/right layout, no `TextStyle(`/hard-coded text in `lib/features`; FR/AR key parity);
+  6. show the comparison to the user → sign-off → commit on `main`.
+- Tests that reach screens with the animated mascot can't use `pumpAndSettle` (it never settles): pump
+  fixed durations instead. Goldens run with reduced motion, so Jobby is still there.
 
 - Run `flutter analyze` and `flutter test` before saying something is done; report failures honestly.
 - Build shared UI components (buttons, chips, cards, inputs, status pills, empty states, bottom nav) in
   `lib/core/widgets/` first and reuse them; match the mockups pixel-close in both themes and both directions.
 - Every screen must work in FR + AR and light + dark; check RTL on each new screen.
-- Prefer small, focused commits. Don't commit secrets. Branch off `main` for features.
+- Prefer small, focused commits. Don't commit secrets. Work happens on `main` (the user keeps a single
+  branch); commit after each sign-off, push when the user asks.
 - When the spec and the design disagree, don't silently pick one: check §9, and ask if it isn't decided.
