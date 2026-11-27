@@ -29,9 +29,18 @@ Source documents (authoritative, read them when a detail matters):
 
 ```
 /                       Flutter project root (package name: debrjournya, Android only)
-├─ lib/                 app code (see §4 for target structure)
-├─ test/                unit/widget tests
-├─ android/             applicationId com.debrjournya.debrjournya
+├─ lib/
+│  ├─ main.dart, app.dart          entry point; MaterialApp (themes, l10n, locale resolution)
+│  ├─ core/theme/                  app_colors.dart (Palette + AppColors ThemeExtension, `context.colors`),
+│  │                               app_theme.dart (AppTheme.light/dark, AppFonts, appText())
+│  ├─ core/l10n/                   app_fr.arb (template), app_ar.arb + generated AppLocalizations
+│  ├─ core/widgets/                shared UI kit: wordmark.dart, loading_dots.dart
+│  └─ features/<feature>/          mascot/ (Jobby), splash/ (A1)
+├─ test/                helpers.dart (fonts, harness, goldenFrame), widget tests, goldens/
+├─ tool/                render_brand_test.dart → regenerates assets/brand/*.png from the painter
+├─ assets/fonts/        Manrope (variable), IBM Plex Sans Arabic 500/700, OFL licences
+├─ assets/brand/        logo PNGs for launcher icon / native splash (generator input, not bundled)
+├─ android/             applicationId com.debrjournya.debrjournya, label "DebrJournya"
 ├─ Docs/                spec, designs, mascot (note capital D; README links say docs/ — outdated)
 └─ CLAUDE.md
 ```
@@ -43,8 +52,19 @@ flutter pub get
 flutter analyze                     # must be clean before committing
 flutter test
 flutter run --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=...
-flutter gen-l10n                    # once l10n is set up (§6)
+flutter gen-l10n                    # regenerate AppLocalizations after editing .arb files
+flutter test --update-goldens test/goldens/   # only after visually checking the change (§10)
+
+# Logo pipeline (after changing the mascot painter):
+flutter test --update-goldens tool/render_brand_test.dart
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
 ```
+
+No Android SDK on the dev machine used so far: `flutter build apk` / `flutter run` must be checked on a
+machine or phone with the SDK.
+Desktop preview on that machine: `tool/run_linux.sh` (phone-sized 390×844 window; works around a GTK/GNOME
+settings-schema crash). `flutter run -d chrome` fails there (Chrome won't launch from Flutter).
 
 Secrets are passed with `--dart-define` only. **Never commit keys**, `.env` files or `google-services.json`
 with real values.
@@ -98,10 +118,12 @@ Feed and the student's own applications must open offline from cache.
                                  # employer, cv, notifications, settings, report, mascot
       data/ domain/ presentation/
   ```
-- **State / routing / packages:** not added yet. Proposed defaults: `flutter_riverpod`, `go_router`,
-  `supabase_flutter`, `firebase_messaging`, `flutter_local_notifications`, `pdf` + `printing`/`share_plus`,
-  `flutter_map` (or Google Maps) for B6, `intl` + `flutter_localizations`. Check size budget before adding
-  anything heavy. Record here when chosen.
+- **Packages in use:** `flutter_localizations`, `intl`; dev: `flutter_launcher_icons`,
+  `flutter_native_splash`. Navigation is a plain `home:` for now (only A1 exists).
+- **Still proposed, add when the screen needs it:** `go_router` (from A3 on), `flutter_riverpod`,
+  `shared_preferences` (language choice), `supabase_flutter`, `firebase_messaging`,
+  `flutter_local_notifications`, `pdf` + `printing`/`share_plus`, `flutter_map` (B6). Check the size budget
+  before adding anything heavy; record choices here.
 - **Backend:** Supabase (Postgres + PostGIS for distance, Auth with phone OTP, Storage for logos/photos/
   verification docs, RLS on every table). Notifications via FCM; shift reminders are local.
 - **Premium/ads:** server-side entitlement flags only; D6 is a "Bientôt" placeholder in v1.
@@ -191,9 +213,14 @@ Mockups are 390 pt wide (exported @2x = 780 px). Style: calm, rounded, flat card
 | mascot body | `#5F8069` | same |
 
 - Radii ≈ cards 24, inputs/buttons 16–20, chips fully rounded, icon tiles 16–20. Buttons ~52 pt tall, full width.
-- Typography: geometric sans; looks like **Manrope** (Latin). Arabic font not specified — pick a matching one
-  (e.g. IBM Plex Sans Arabic / Noto Sans Arabic); bundle only needed weights (size budget). Confirm and record here.
-- Brand wordmark: "Debr" in ink + "Journya" in moss, bold.
+- Typography (bundled): **Manrope** variable font for Latin; **IBM Plex Sans Arabic** Medium/Bold as fallback
+  for Arabic. Use `appText(size:, weight:, wght:)` — it sets both `fontWeight` and the `wght` axis (needed
+  for the variable font); `wght` allows in-between weights (A1 tagline uses 550).
+- Measured text: wordmark 32 pt / w800 / letter-spacing −0.02em; splash tagline 15 pt / wght 550 / −0.07.
+- Brand wordmark (`core/widgets/wordmark.dart`): "Debr" in ink + "Journya" in moss (dark: `#7F9C88`);
+  always Latin and LTR, also in Arabic.
+- Loader (`core/widgets/loading_dots.dart`): 3 dots Ø7.5 pt, 16 pt apart; light soot/moss/eucalyptus,
+  dark `#A3B8A9`/`#7F9C88`/`#3F5847`; pulse wave 1.2 s; still when reduced motion.
 - Dark mode is a faithful mirror of light; primary action colour flips from soot to sage.
 - Note mock glitch to ignore: D2 toggles render on their own rows — put them trailing on each tile.
 
@@ -210,16 +237,22 @@ No metal parts. Pad on the left.
   (50−36, 78) rotated +0.22 rad, 25×30.
 - States: `default` (au repos, idle bob/blink), `working` (prend des notes — pen writes, line grows),
   `sleeping` (endormi). Tap = "poke" → jump. Supports light/dark theme.
-- **Body, face, glasses, bow tie and the pose simulation come from an external `bot-avatars` library that
-  is NOT in the repo** (`BotAvatarSim`, `drawBotAvatarFrame`, `autoInk`). The Flutter port must re-create
-  them: implement as a `CustomPainter` + `AnimationController` (`features/mascot/jobby.dart`), driving a
-  small pose model (x/y offset, squash sx/sy, roll, yaw/pitch, blink, writing weight). Approximate the look
-  from A1 Splash; keep it lightweight (no Rive/Lottie unless we decide to).
-- Usage: A1 splash (large, `working` or `default`), onboarding header & A4 (small static), possibly empty states.
+- **Body, face, glasses, bow tie and the pose simulation came from an external `bot-avatars` library that
+  is NOT in the repo**; they were redrawn by hand to match A1. **Implemented** in `lib/features/mascot/`:
+  - `jobby_sim.dart` — `JobbySim` (ChangeNotifier): bob, squash/stretch, tilt, blinks (seeded random),
+    writing/sleep blend, `poke()` hop; `seek(t)` gives a level still pose.
+  - `jobby_painter.dart` — `JobbyPainter` (CustomPainter, 0–100 box, repaints from the sim).
+  - `jobby.dart` — `Jobby(size, state, animate, interactive, stillTime)`; tap = hop; still under reduced motion.
+  - Scale: on A1 the box is 153.5 pt (case 138 pt wide), shifted +5 pt so case+notepad look centred.
+- Launcher icon + native launch screen are rendered from the same painter (see §2 logo pipeline).
+- Usage: A1 splash (`working`), later onboarding header & A4 (small, can be `animate: false`), empty states.
 
 ## 9. Decisions log & open questions
 
 **Decided (2026-11-27):**
+- A1 Splash built: dots are an **animated loader**; launcher icon + native splash use Jobby on `#FAF8F2`
+  (dark `#0E1412`). Splash waits for `max(bootstrap, 1.8 s)` then `onReady` (currently a no-op until A3).
+- Arabic splash tagline: « عمل يناسب جدولك الزمني ». Initial locale = Arabic if the phone is Arabic, else French.
 - Flutter project lives at the repo root; Android only; package `debrjournya`, org `com.debrjournya`.
 - `pro (2).jsx` is the animated logo/mascot → port to Flutter (§8).
 - Arabic: Claude writes all Arabic strings (§6).
@@ -245,6 +278,11 @@ No metal parts. Pad on the left.
     final submission Fri 8 Jan 2027 (all Must features F1–F11).
 
 ## 10. Working conventions
+
+- **Screens are built one at a time and signed off before the next one.** Per screen: build it, add widget
+  tests + goldens in `test/goldens/` (FR light/dark, AR light/dark), then compare each golden with the
+  mockup PNG. Goldens are 780×1688 = same pixels as the mockups (`useSurface` + `goldenFrame` in
+  `test/helpers.dart`), so measure element bounding boxes on both and iterate until they agree within ~1–2 px.
 
 - Run `flutter analyze` and `flutter test` before saying something is done; report failures honestly.
 - Build shared UI components (buttons, chips, cards, inputs, status pills, empty states, bottom nav) in

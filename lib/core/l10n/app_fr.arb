@@ -1,0 +1,19 @@
+{
+  "@@locale": "fr",
+  "appName": "DebrJournya",
+  "@appName": {
+    "description": "Brand name. Never translated; always written in Latin letters."
+  },
+  "splashTagline": "Le job qui s’adapte à ton emploi du temps",
+  "@splashTagline": {
+    "description": "Brand tagline under the wordmark on the splash screen (A1)."
+  },
+  "mascotLabel": "Jobby, la mascotte",
+  "@mascotLabel": {
+    "description": "Screen-reader label for the animated briefcase mascot."
+  },
+  "loadingLabel": "Chargement",
+  "@loadingLabel": {
+    "description": "Screen-reader label for the three animated loading dots."
+  }
+}
